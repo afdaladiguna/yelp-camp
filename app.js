@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);      //strictQuery warn on mongo
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 // end
@@ -20,9 +21,11 @@ db.once("open", () => {
 // express set up
 const app = express();
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');      //set view engine to ejs
 app.set('views', path.join(__dirname, 'views'));    //set path for 'views' folder
 
+// middleware
 app.use(express.urlencoded({ extended: true}));     //to parse req.body
 app.use(methodOverride('_method'));     //allows form to do any methdo eg. PUT PATCH DELETE
 // end
